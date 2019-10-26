@@ -23,17 +23,22 @@ public class BaseStrategy implements IUnitStrategy {
 	public AICommand buildCommand(Unit unit) {
 
 		if (scoutCounter < 3) {
-			scoutCounter++;
-			return AICommand.buildUnitCommand("scout");
+			if (unit.getAvailableResources() > 130) {				
+				scoutCounter++;
+				return AICommand.buildUnitCommand("scout");
+			}
 		} else if (workerCounter < 12) {
-			workerCounter++;
-			return AICommand.buildUnitCommand("worker");
+			if (unit.getAvailableResources() > 100) {				
+				workerCounter++;
+				return AICommand.buildUnitCommand("worker");
+			}
 		} else if (tankCounter < 4) {
-			tankCounter++;
-			return AICommand.buildUnitCommand("tank");
-		} else {
-			return null;
+			if (unit.getAvailableResources() > 150) {
+				tankCounter++;
+				return AICommand.buildUnitCommand("tank");
+			}
 		}
+		return null;
 	}
 
 }

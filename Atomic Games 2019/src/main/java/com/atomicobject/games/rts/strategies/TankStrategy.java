@@ -14,6 +14,8 @@ public class TankStrategy implements IUnitStrategy {
 	Map map;
 	Pathfinder finder;
 
+	int counter = 0;
+	
 	public TankStrategy(Map map, Unit unit, UnitManager unitManager) {
 		finder = new Pathfinder(map);
 		this.map = map;
@@ -21,6 +23,10 @@ public class TankStrategy implements IUnitStrategy {
 
 	public AICommand buildCommand(Unit unit) {
 
+//		if (counter == 0) {
+//			counter++;
+//			return AICommand.buildMoveCommand(unit, MapDirections.Direction.NORTH);
+//		}
 		
 		if (map.hasEnemies()) {
 			var enemies = map.enemyLocationsInRange(unit.getLocation(), 2);
