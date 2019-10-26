@@ -34,6 +34,10 @@ public class Map {
         }
         return tiles.get(location);
     }
+    
+//    public List<Tile> getUnknownTiles() {
+//    	return 
+//    }
 
     public List<Location> buildNeighborLocationList(int range) {
         var xLocations = IntStream.rangeClosed(-range, range);

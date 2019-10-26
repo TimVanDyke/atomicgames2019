@@ -15,6 +15,8 @@ public class AIStrategy {
     }
 
     public List<AICommand> buildCommandList() {
+        var bla = unitManager.getUnits().values();
+    	
         return unitManager.getUnits().values()
                 .stream()
                 .map(u -> u.buildCommand())
