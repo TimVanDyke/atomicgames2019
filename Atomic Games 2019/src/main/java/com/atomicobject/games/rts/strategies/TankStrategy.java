@@ -21,6 +21,7 @@ public class TankStrategy implements IUnitStrategy {
 
 	public AICommand buildCommand(Unit unit) {
 
+		
 		if (map.hasEnemies()) {
 			var enemies = map.enemyLocationsInRange(unit.getLocation(), 2);
 			if (!enemies.isEmpty()) {
