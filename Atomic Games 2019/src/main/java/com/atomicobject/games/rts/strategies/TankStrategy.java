@@ -10,24 +10,25 @@ import com.atomicobject.games.rts.state.UnitManager;
 import com.atomicobject.games.rts.updates.Location;
 
 public class TankStrategy implements IUnitStrategy {
-	Pathfinder finder;
-    public TankStrategy(Map map, Unit unit, UnitManager unitManager) {
-    	finder = new Pathfinder(map);
-    }
 
-    public AICommand buildCommand(Unit unit) {
-        var locationList = finder.findPath(unit.getLocation(), new Location(0, -1), 0);
-        
-        System.out.println(locationList.toString());
-        
-        Location ourDestination = unit.getLocation();
-        if (!locationList.isEmpty()) {
-        	ourDestination = locationList.get(0);
-        }
-        
-        var direction = MapDirections.cardinalDirection(unit.getLocation(), ourDestination);
-        
-        return AICommand.buildMoveCommand(unit, direction);
-    }
+	Map map;
+	Pathfinder finder;
+
+	public TankStrategy(Map map, Unit unit, UnitManager unitManager) {
+		finder = new Pathfinder(map);
+		this.map = map;
+	}
+
+	public AICommand buildCommand(Unit unit) {
+
+		if (map.hasEnemies()) {
+			var enemies = map.enemyLocationsInRange(unit.getLocation(), 2);
+			if (!enemies.isEmpty()) {
+				return AICommand.buildShootCommand(unit, enemies.get(0));
+			}
+		}
+
+		return null;
+	}
 
 }

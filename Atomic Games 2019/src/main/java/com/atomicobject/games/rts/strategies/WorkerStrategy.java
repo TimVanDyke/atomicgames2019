@@ -21,30 +21,20 @@ public class WorkerStrategy implements IUnitStrategy {
 	}
 
 	public AICommand buildCommand(Unit unit) {
-		// MapDirections.cardinalDirection(unit.getLocation(), ourDestination)
 		var direction = MapDirections.randomDirection();
 
 		if (unit.isCarryingResource()) {
 			var path = finder.findPath(unit.getLocation(), map.homeBaseLocation(), 1);
-//			return AICommand.buildMoveCommand(unit, MapDirections.cardinalDirection(unit.getLocation(), map.homeBaseLocation()));
 			return AICommand.buildMoveCommand(unit, MapDirections.cardinalDirection(unit.getLocation(), path.get(0)));
 		} else {
 			boolean resourcesByMe = false;
 			var myNeighbors = map.neighbors(unit.getLocation());
-			// myNeighbors.
 			int x = unit.getLocation().getX();
 			int y = unit.getLocation().getY();
 			Tile left = map.getTile(new Location(x + 1, y));
 			Tile right = map.getTile(new Location(x - 1, y));
 			Tile up = map.getTile(new Location(x, y + 1));
 			Tile down = map.getTile(new Location(x, y - 1));
-
-//			for (int i = 0; i < myNeighbors.size(); i++) {
-//				if (myNeighbors.get(i).hasResource()) {
-//					System.out.println("This is our log" + i);
-//					resourcesByMe = true;
-//				}
-//			}
 
 			if (left.hasResource()) {
 				System.out.println("This is our log" + 1);
@@ -69,13 +59,12 @@ public class WorkerStrategy implements IUnitStrategy {
 				if (!resourceTiles.isEmpty()) {
 					destination = resourceTiles.get(0);
 					System.out.println("WE GOT THIS FAR");
-					
+
 					System.out.println(finder.findPath(unit.getLocation(), resourceTiles.get(0), 1));
 					var path = finder.findPath(unit.getLocation(), resourceTiles.get(0), 1);
 					if (path != null) {
-//						System.out.println(finder.findPath(unit.getLocation(), resourceTiles.get(0), 1).toString());
-//						direction = MapDirections.cardinalDirection(unit.getLocation(), destination);						
-						return AICommand.buildMoveCommand(unit, MapDirections.cardinalDirection(unit.getLocation(), path.get(0)));
+						return AICommand.buildMoveCommand(unit,
+								MapDirections.cardinalDirection(unit.getLocation(), path.get(0)));
 					}
 				}
 			}
