@@ -25,8 +25,9 @@ public class WorkerStrategy implements IUnitStrategy {
 		var direction = MapDirections.randomDirection();
 
 		if (unit.isCarryingResource()) {
-			return AICommand.buildMoveCommand(unit,
-					MapDirections.cardinalDirection(unit.getLocation(), map.homeBaseLocation()));
+			var path = finder.findPath(unit.getLocation(), map.homeBaseLocation(), 1);
+//			return AICommand.buildMoveCommand(unit, MapDirections.cardinalDirection(unit.getLocation(), map.homeBaseLocation()));
+			return AICommand.buildMoveCommand(unit, MapDirections.cardinalDirection(unit.getLocation(), path.get(0)));
 		} else {
 			boolean resourcesByMe = false;
 			var myNeighbors = map.neighbors(unit.getLocation());
@@ -70,11 +71,11 @@ public class WorkerStrategy implements IUnitStrategy {
 					System.out.println("WE GOT THIS FAR");
 					
 					System.out.println(finder.findPath(unit.getLocation(), resourceTiles.get(0), 1));
-
-					if (finder.findPath(unit.getLocation(), resourceTiles.get(0), 1) != null) {
-						System.out.println(finder.findPath(unit.getLocation(), resourceTiles.get(0), 1).toString());
-						direction = MapDirections.cardinalDirection(unit.getLocation(), destination);						
-						
+					var path = finder.findPath(unit.getLocation(), resourceTiles.get(0), 1);
+					if (path != null) {
+//						System.out.println(finder.findPath(unit.getLocation(), resourceTiles.get(0), 1).toString());
+//						direction = MapDirections.cardinalDirection(unit.getLocation(), destination);						
+						return AICommand.buildMoveCommand(unit, MapDirections.cardinalDirection(unit.getLocation(), path.get(0)));
 					}
 				}
 			}
